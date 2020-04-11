@@ -1,6 +1,7 @@
 <?php require_once('../../private/initialize.php'); // Use static strings and not dynamic ?>
 
-<?php require('../../private/shared/staff_header.php'); ?>
+<?php $page_title = 'Staff Menu'; ?>
+<?php require(SHARED_PATH . '/staff_header.php'); ?>
 
 <div id="content">
 
@@ -8,4 +9,4 @@
 
 </div>
 
-<?php require('../../private/shared/staff_footer.php'); ?>
+<?php require(SHARED_PATH . '/staff_footer.php'); ?>
