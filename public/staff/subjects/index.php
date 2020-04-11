@@ -37,7 +37,7 @@
           <td><?php echo $subject['position']; ?></td>
           <td><?php echo $subject['visible'] == 1 ? 'true' : 'false'; ?></td>
     	  <td><?php echo $subject['menu_name']; ?></td>
-          <td><a class="action" href="<?php echo url_for('/staff/subjects/show.php?id=' . $subject['id'] . '&position=' . $subject['position'] . '&visible=' . $subject['visible']);?>
+          <td><a class="action" href="<?php echo url_for('/staff/subjects/show.php?id=' . $subject['id'] . '&position=' . $subject['position'] . '&visible=' . $subject['visible'] . '&name=' . $subject['menu_name']);?>
           ">View</a></td>
           <td><a class="action" href="">Edit</a></td>
           <td><a class="action" href="">Delete</a></td>
