@@ -18,7 +18,7 @@
         <h1>Pages</h1>
     
         <div class="actions">
-            <a class="action" href="#">Create New Pages</a>
+            <a class="action" href="<?php echo url_for('staff/pages/new.php'); ?>">Create New Pages</a>
         </div>
 
     <table class="list">
@@ -41,7 +41,7 @@
                 <td><?php echo h($page['title']); ?></td>
                 <td><?php echo h($page['content']); ?></td>
                 <td><a class="action" href="<?php echo url_for('/staff/pages/show.php?id=' . h(u($page['id'])) . '&content=' . h(u($page['content'])));?>">View</a></td>
-                <td>Edit</td>
+                <td><a class="action" href="<?php echo url_for('/staff/pages/edit.php?id=' . h(u($page['id']))); ?>">Edit</a></td>
                 <td>Delete</td>
             </tr>
         <?php } ?>
