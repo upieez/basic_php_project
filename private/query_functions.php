@@ -142,6 +142,7 @@
         $sql .= "(menu_name, position, visible) ";
         $sql .= "VALUES (";
         $sql .= "'" . db_escape($db,$subject['menu_name']) . "',";
+        $sql .= "'". db_escape($db,$subject['position']) . "',";
         $sql .= "'" . db_escape($db,$subject['visible']) . "'";
         $sql .= ")";
         $result = mysqli_query($db,$sql);
