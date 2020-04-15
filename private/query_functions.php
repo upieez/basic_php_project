@@ -107,10 +107,10 @@
         $sql .= "WHERE id='$id' ";
         $sql .= "LIMIT 1";
 
-        $result = mysqli_query($db, $sql);
-        confirm_result_set($result);
-        $page = mysqli_fetch_assoc($result);
-        mysqli_free_result($result);
+        $result = mysqli_query($db, $sql); // send the query to the database 
+        confirm_result_set($result); // ensure it is correct else DATABASE failed
+        $page = mysqli_fetch_assoc($result); // take the result and give it into a associative array
+        mysqli_free_result($result); // release the data
 
         return $page;
     }
