@@ -7,10 +7,6 @@ if(!isset($_GET['id'])){
 }
 
 $id = $_GET['id'];
-$menu_name = '';
-$position = '';
-$visible = '';
-$content = '';
 
 if(is_post_request()){
 
@@ -23,17 +19,22 @@ if(is_post_request()){
     $page['content'] = $_POST['content'] ?? '';
 
     $result = update_page($page);
-    redirect_to(url_for('/staff/pages/show.php?id=' . $id));
+    if($result === true){
+      redirect_to(url_for('/staff/pages/show.php?id=' . $id));
+    } else {
+      $errors = $result;
+    }
 
 } else {
 
   $page = find_page_by_id($id);
 
-  $page_set = find_all_pages();
-  $page_count = mysqli_num_rows($page_set);
-  mysqli_free_result($page_set);
-
 }
+
+$page_set = find_all_pages();
+$page_count = mysqli_num_rows($page_set);
+mysqli_free_result($page_set);
+
 ?>
 
 <?php $page_title = 'Edit Pages'; ?>
@@ -45,6 +46,8 @@ if(is_post_request()){
 
   <div class="subject new">
     <h1>Edit Pages</h1>
+
+    <?php echo display_errors($errors); ?>
 
     <form action="<?php echo url_for('/staff/pages/edit.php?id=' . $id)?>" method="post">
       <dl>
@@ -105,17 +108,6 @@ if(is_post_request()){
     </form>
 
     <div>
-    <?php
-
-    if(is_post_request()){
-        echo "Edit Form details<br />";
-        echo "Menu Name: " . $menu_name . "<br />";
-        echo "Position: " . $position . "<br />";
-        echo "Visible: ". $visible . "<br />";
-        echo "Content: ". $content . "<br />";
-    }
-
-    ?>
     </div>
 
   </div>
