@@ -115,7 +115,7 @@
         return $page;
     }
 
-    function insert_pages($page){
+    function insert_page($page){
         global $db;
 
         $sql = "INSERT INTO pages ";
@@ -139,7 +139,48 @@
         db_disconnect($db);
         exit;
         }
+    }
 
+    function update_page($page){
+        global $db;
+
+        $sql = "UPDATE pages SET ";
+        $sql .= "subject_id='" . $page['subject_id'] . "', ";
+        $sql .= "menu_name='" . $page['menu_name'] . "', ";
+        $sql .= "position='" . $page['position'] . "', ";
+        $sql .= "visible='" . $page['visible'] . "', ";
+        $sql .= "content='" . $page['content'] . "' ";
+        $sql .= "WHERE id='" . $page['id'] . "' ";
+        $sql .= "LIMIT 1";
+
+        $result = mysqli_query($db, $sql);
+        // $returns true/false
+        if($result) {
+            return true;
+        } else {
+            // Update fails
+            echo mysqli_error($db);
+            db_disconnect($db);
+            exit;
+        }
+
+    }
+
+    function delete_page($id){
+        global $db;
+
+        $sql = "DELETE FROM pages ";
+        $sql .= "WHERE id='$id' ";
+        $sql .= "LIMIT 1";
+        $result = mysqli_query($db, $sql);
+
+        if($result){
+            return true;
+        } else {
+            echo mysqli_error($db);
+            db_disconnect($db);
+            exit;
+        }
     }
 
 ?>
