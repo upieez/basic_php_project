@@ -2,16 +2,6 @@
 
 require_once('../../../private/initialize.php'); 
 
-$page_set = '';
-
-
-$menu_name = '';
-$subject_id = '';
-$position = '';
-$visible = '';
-$content = '';
-
-
 if(is_post_request()){
 
   $page = [];
@@ -21,10 +11,23 @@ if(is_post_request()){
   $page['visible'] = $_POST['visible'] ?? '';
   $page['content'] = $_POST['content'] ?? '';
 
-  $result = insert_pages($page);
+  $result = insert_page($page);
   $new_id = mysqli_insert_id($db);
 
   redirect_to(url_for('/staff/pages/show.php?id=' . $new_id));
+
+} else {
+  $page = [];
+
+  $page['subject_id'] = '';
+  $page['menu_name'] = '';
+  $page['position'] = '';
+  $page['visible'] = '';
+  $page['content'] = '';
+
+  $page_set = find_all_pages();
+  $page_count = mysqli_num_rows($page_set) + 1;
+  mysqli_free_result($page_set);
 
 }
 ?>
@@ -48,7 +51,17 @@ if(is_post_request()){
         <dt>Subject</dt>
         <dd>
           <select name="subject_id">
-            <option value="1">1</option>
+            <?php 
+              $subject_set = find_all_subjects();
+              while($subject = mysqli_fetch_assoc($subject_set)){
+                echo "<option value=\"" . h($subject['id']) . "\"";
+                if($page["subject_id"] == $subject['id']){
+                  echo " selected";
+                }
+                echo ">" . h($subject['menu_name']) . "</option>";
+              }
+              mysqli_free_result($subject_set);
+            ?>
           </select>
         </dd>
       </dl>
@@ -56,7 +69,15 @@ if(is_post_request()){
         <dt>Position</dt>
         <dd>
           <select name="position">
-            <option value="1"<?php if($position == "1") { echo " selected";} ?>>1</option>
+            <?php
+              for($i=0;$i<=$page_count;$i++){
+                echo "<option value=\"${i}\"";
+                if($page["position"] == $i){
+                  echo " selected";
+                }
+                echo ">{$i}</option>";
+              }
+            ?>
           </select>
         </dd>
       </dl>
