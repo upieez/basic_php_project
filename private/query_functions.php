@@ -24,8 +24,45 @@
         return $subject; // returns an assoc array
     }
 
+    function validate_subject($subject){
+        
+        $errors = [];
+
+        // menu_name
+        // this $errors[] syntax is to add things to the end of the array
+        if(is_blank($subject['menu_name'])){
+            $errors[] = "Name cannot be blank."; 
+        } else if(!has_length($subject['menu_name'], ['min' => 2, 'max' => 255])) {
+            $errors[] = "Name must be between 2 and 255 characters.";
+        }
+
+        // position
+        // Make sure we are working with an integer
+        $position_int = (int) $subject['position'];
+        if($position_int <= 0){
+            $errors[] = "Position must be greater than zero.";
+        }
+        if($position_int > 999){
+            $errors[] = "Position must be less than 999.";
+        }
+
+        // visible
+        // Make sure we are working with a string
+        $visible_str = (string) $subject['visible'];
+        if(!has_inclusion_of($visible_str, ["0","1"])){
+            $errors[] = "Visible must be true or false";
+        }
+
+        return $errors;
+    }
+
     function update_subject($subject){
         global $db;
+
+        $errors = validate_subject($subject); // check if there were any errors
+        if(!empty($errors)){
+            return $errors;
+        }
 
         $sql = "UPDATE subjects SET ";
         $sql .= "menu_name='" . $subject['menu_name'] . "',";
@@ -49,6 +86,11 @@
 
     function insert_subject($subject){
         global $db;
+
+        $errors = validate_subject($subject); // check if there were any errors
+        if(!empty($errors)){
+            return $errors;
+        }
         
         $sql =  "INSERT INTO subjects ";
         $sql .= "(menu_name, position, visible) ";
