@@ -5,7 +5,7 @@
 
 <?php
     $id = $_GET['id'] ?? '1';
-    $content = $_GET['content'] ?? 'In deserunt nulla eu deserunt labore.';
+    $page = find_page_by_id($id);
 ?>
 
 <div id="content">
@@ -14,7 +14,7 @@
 
     <?php
     echo "ID is: " . h($id) . "<br />";
-    echo "Content: " . h($content) . "<br />";
+    echo "Content: " . h($page['content']) . "<br />";
     ?>
 </div>
 

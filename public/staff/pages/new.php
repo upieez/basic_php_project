@@ -2,17 +2,30 @@
 
 require_once('../../../private/initialize.php'); 
 
+$page_set = '';
+
+
 $menu_name = '';
+$subject_id = '';
 $position = '';
 $visible = '';
 $content = '';
 
 
 if(is_post_request()){
-    $menu_name = $_POST['menu_name'] ?? '';
-    $position = $_POST['position'] ?? '';
-    $visible = $_POST['visible'] ?? '';
-    $content = $_POST['content'] ?? '';
+
+  $page = [];
+  $page['subject_id'] = $_POST['subject_id'] ?? '';
+  $page['menu_name'] = $_POST['menu_name'] ?? '';
+  $page['position'] = $_POST['position'] ?? '';
+  $page['visible'] = $_POST['visible'] ?? '';
+  $page['content'] = $_POST['content'] ?? '';
+
+  $result = insert_pages($page);
+  $new_id = mysqli_insert_id($db);
+
+  redirect_to(url_for('/staff/pages/show.php?id=' . $new_id));
+
 }
 ?>
 
@@ -30,6 +43,14 @@ if(is_post_request()){
       <dl>
         <dt>Menu Name</dt>
         <dd><input type="text" name="menu_name" value="" /></dd>
+      </dl>
+      <dl>
+        <dt>Subject</dt>
+        <dd>
+          <select name="subject_id">
+            <option value="1">1</option>
+          </select>
+        </dd>
       </dl>
       <dl>
         <dt>Position</dt>

@@ -49,10 +49,6 @@
 
     function insert_subject($subject){
         global $db;
-
-        $menu_name = $_POST['menu_name'] ?? '';
-        $position = $_POST['position'] ?? '';
-        $visible = $_POST['visible'] ?? '';
         
         $sql =  "INSERT INTO subjects ";
         $sql .= "(menu_name, position, visible) ";
@@ -102,6 +98,48 @@
         $result = mysqli_query($db,$sql);
         confirm_result_set($result);
         return $result;
+    }
+
+    function find_page_by_id($id){
+        global $db;
+
+        $sql = "SELECT * FROM pages ";
+        $sql .= "WHERE id='$id' ";
+        $sql .= "LIMIT 1";
+
+        $result = mysqli_query($db, $sql);
+        confirm_result_set($result);
+        $page = mysqli_fetch_assoc($result);
+        mysqli_free_result($result);
+
+        return $page;
+    }
+
+    function insert_pages($page){
+        global $db;
+
+        $sql = "INSERT INTO pages ";
+        $sql .= "(subject_id, menu_name, position, visible, content) ";
+        $sql .= "VALUES (";
+        $sql .= "'" . $page['subject_id'] . "', ";
+        $sql .= "'" . $page['menu_name'] . "', "; 
+        $sql .= "'" . $page['position'] . "', "; 
+        $sql .= "'" . $page['visible'] . "', "; 
+        $sql .= "'" . $page['content'] . "'";
+        $sql .= ")"; 
+
+        $result = mysqli_query($db,$sql);
+
+
+        if($result){
+            return true;
+        } else {
+        echo $sql;
+        echo mysqli_error($db);
+        db_disconnect($db);
+        exit;
+        }
+
     }
 
 ?>
