@@ -30,5 +30,6 @@
     require_once('validation_functions.php');
 
     $db = db_connect(); // connects instantly whenever you call initialize.php
+    $errors = []; // putting it here is better
 
 ?>
